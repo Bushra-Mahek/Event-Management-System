@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Events Page</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+    header { background: #6a1b9a; color: white; padding: 20px; text-align: center; }
+    .filter-container { padding: 20px; text-align: center; }
+    .filter-container select { padding: 10px; font-size: 16px; }
+    .events-container { display: flex; flex-wrap: wrap; gap: 20px; padding: 20px; justify-content: center; }
+    .event-card { background: white; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); padding: 15px; width: 260px; position: relative; }
+    .event-card h3 { margin: 0 0 10px; color: #4a148c; }
+    .event-card p { margin: 5px 0; font-size: 14px; }
+    .event-card button { margin-top: 10px; background: #6a1b9a; color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; width: 100%; }
+    .add-event-btn { display: block; margin: 30px auto; padding: 12px 24px; background: #4a148c; color: white; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+    .popup-form, .overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; }
+    .overlay { background: rgba(0,0,0,0.5); z-index: 998; }
+    .popup-form { z-index: 999; background: white; width: 320px; margin: auto; top: 5%; left: 0; right: 0; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+    .popup-form input, .popup-form select, .popup-form textarea {
+      width: 100%; padding: 10px; margin: 10px 0; font-size: 14px;
+    }
+    .popup-form button { padding: 10px 20px; background: #4a148c; color: white; border: none; cursor: pointer; }
+    .popup-form .close { float: right; cursor: pointer; font-weight: bold; color: red; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Events</h1>
+</header>
+
+<div class="filter-container">
+  <label for="eventFilter">Filter by Type:</label>
+  <select id="eventFilter" onchange="filterEvents()">
+    <option value="all">All</option>
+    <option value="technical">Technical</option>
+    <option value="cultural">Cultural</option>
+    <option value="creative">Creative</option>
+    <option value="workshop">Workshop</option>
+  </select>
+</div>
+
+<div class="events-container" id="eventsContainer"></div>
+
+<button class="add-event-btn" onclick="showAddEventForm()">Add Event</button>
+
+<div class="overlay" id="overlay" onclick="hideAddEventForm()"></div>
+
+<div class="popup-form" id="addEventForm">
+  <span class="close" onclick="hideAddEventForm()">&times;</span>
+  <h3>Add New Event</h3>
+  <input type="text" id="eventName" placeholder="Event Name" />
+  <input type="text" id="eventLocation" placeholder="Location" />
+  <input type="number" id="eventCapacity" placeholder="Capacity" />
+  <input type="datetime-local" id="eventDateTime" />
+  <input type="text" id="eventCommittee" placeholder="Organized By (Committee)" />
+  <select id="eventType">
+    <option value="">Select Type</option>
+    <option value="technical">Technical</option>
+    <option value="cultural">Cultural</option>
+    <option value="creative">Creative</option>
+    <option value="workshop">Workshop</option>
+  </select>
+  <textarea id="eventDescription" placeholder="Event Description"></textarea>
+  <button onclick="addEvent()">Add</button>
+</div>
+
+<script>
+  const events = [
+    {
+      name: "CodeFest",
+      description: "Coding competition.",
+      type: "technical",
+      location: "Auditorium",
+      capacity: 100,
+      dateTime: "2025-07-01T10:00",
+      committee: "Tech Club"
+    },
+    {
+      name: "Dance Battle",
+      description: "Inter-college dance contest.",
+      type: "cultural",
+      location: "Main Hall",
+      capacity: 200,
+      dateTime: "2025-07-05T18:00",
+      committee: "Cultural Club"
+    },
+    {
+      name: "Art Jam",
+      description: "Live creative painting.",
+      type: "creative",
+      location: "Art Room",
+      capacity: 50,
+      dateTime: "2025-07-08T15:00",
+      committee: "Art Society"
+    },
+    {
+      name: "AI Workshop",
+      description: "Learn about AI tools.",
+      type: "workshop",
+      location: "Lab 2",
+      capacity: 60,
+      dateTime: "2025-07-10T11:00",
+      committee: "AI Group"
+    }
+  ];
+
+  function displayEvents(data) {
+    const container = document.getElementById("eventsContainer");
+    container.innerHTML = "";
+    data.forEach(event => {
+      const card = document.createElement("div");
+      card.className = "event-card";
+      card.innerHTML = `
+        <h3>${event.name}</h3>
+        <p><strong>Description:</strong> ${event.description}</p>
+        <p><strong>Type:</strong> ${event.type}</p>
+        <p><strong>Location:</strong> ${event.location}</p>
+        <p><strong>Capacity:</strong> ${event.capacity}</p>
+        <p><strong>Date & Time:</strong> ${new Date(event.dateTime).toLocaleString()}</p>
+        <p><strong>Committee:</strong> ${event.committee}</p>
+        <button onclick="window.location.href='register.html'">Register</button>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  function filterEvents() {
+    const type = document.getElementById("eventFilter").value;
+    if (type === "all") {
+      displayEvents(events);
+    } else {
+      const filtered = events.filter(event => event.type === type);
+      displayEvents(filtered);
+    }
+  }
+
+  function showAddEventForm() {
+    document.getElementById("overlay").style.display = "block";
+    document.getElementById("addEventForm").style.display = "block";
+  }
+
+  function hideAddEventForm() {
+    document.getElementById("overlay").style.display = "none";
+    document.getElementById("addEventForm").style.display = "none";
+  }
+
+  function addEvent() {
+    const name = document.getElementById("eventName").value.trim();
+    const location = document.getElementById("eventLocation").value.trim();
+    const capacity = document.getElementById("eventCapacity").value.trim();
+    const dateTime = document.getElementById("eventDateTime").value;
+    const committee = document.getElementById("eventCommittee").value.trim();
+    const desc = document.getElementById("eventDescription").value.trim();
+    const type = document.getElementById("eventType").value;
+
+    if (name && location && capacity && dateTime && committee && desc && type) {
+      events.push({
+        name,
+        location,
+        capacity,
+        dateTime,
+        committee,
+        description: desc,
+        type
+      });
+      hideAddEventForm();
+      filterEvents();
+    } else {
+      alert("Please fill all fields.");
+    }
+  }
+
+  window.onload = () => displayEvents(events);
+</script>
+
+</body>
+</html>
