@@ -69,5 +69,8 @@ app.post('/api/registration', (req, res) => {
     res.send('Event added successfully!');
   });
 });
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running at http://localhost:${PORT}`);
+});
 
 
