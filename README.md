@@ -17,13 +17,14 @@ Dynamically generate event cards on frontend
 Register participants with name, USN, semester, email, and phone
 Data stored and retrieved from MySQL backend
 
-🧑‍💻 Tech Stack
+🧑‍💻Tech Stack
 Frontend: HTML, CSS, JavaScript
 Backend: Node.js, Express.js
 Database: MySQL
 Tools: MySQL Workbench, VS Code
 
-🛠️ Setup Instructions
+
+ Setup Instructions
 1. Clone the Repository
 bash
 Copy code
@@ -40,21 +41,19 @@ Open MySQL Workbench
 
 Import the file: db/event-management.sql
 
-⚠️ Make sure your server.js DB credentials match your local MySQL setup
-
-📂 Folder Details
+Make sure your server.js DB credentials match your local MySQL setup Folder Details
 Folder	Description
 frontend/	All HTML pages (home, events, register)
 backend/	Node.js Express server with API routes
 db/	SQL dump to recreate MySQL tables & data
 
-📌 Routes
+Routes
 Route	Method	Description
 /api/events	POST	Add a new event to the DB
 /api/events	GET	(Optional) Fetch all events
 /api/register	POST	Register user for an event
 
-🙋‍♀️ Developed By
+ Developed By
 Bushra Mahek M and C Shreya
 4th Semester, Computer Science & Engineering
 BMS Institute of Technology and Management
