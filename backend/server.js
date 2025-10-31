@@ -4,7 +4,7 @@ const express = require('express');
 const path = require('path');
 const mysql = require('mysql'); // ✅ DB package
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 // Middleware to parse form data and JSON
 app.use(express.urlencoded({ extended: true }));
@@ -69,5 +69,7 @@ app.post('/api/registration', (req, res) => {
     res.send('Event added successfully!');
   });
 });
+
+app.listen(PORT, () => console.log(`Server on ${PORT}`));
 
 
