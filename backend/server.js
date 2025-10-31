@@ -6,8 +6,14 @@ const mysql = require('mysql'); // ✅ DB package
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
+
 // Middleware to parse form data and JSON
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cors());
 app.use(express.json());
 
 // ✅ Serve frontend files
